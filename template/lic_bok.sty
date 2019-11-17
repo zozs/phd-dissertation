@@ -1,0 +1,105 @@
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{template/lic_bok} [2002/12/18 v0.1]
+
+\newlength{\bbls}
+\setlength{\bbls}{\baselineskip}
+\widowpenalty=2000
+\clubpenalty=4000
+
+\newcommand\blankpagestyle{empty}
+\def\cleardoublepage{\clearpage
+  \if@twoside \ifodd\c@page
+  \else
+    \hbox{}\thispagestyle{\blankpagestyle}\newpage
+    \if@twocolumn\hbox{}\newpage\fi
+  \fi\fi
+}
+
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{\bfseries #1:~ \normalfont  #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    \bfseries #1:~ \normalfont  #2\par
+  \else
+    \global \@minipagefalse
+   \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+% ------------------ Change chapter title row layout
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{%
+  \markmargin%
+  \addtolength{\spiff}{3cm}%
+  \vspace*{10\p@}%
+  {\parindent \z@ \raggedleft \reset@font
+            \sffamily \bfseries %\@chapapp{} \thechapter%
+        \par\nobreak%
+        \interlinepenalty\@M%
+    \Huge #1\par\nobreak
+    \hrulefill
+    \par\nobreak
+    \vskip 80\p@
+  }}
+\def\@makeschapterhead#1{%
+  \vspace*{10\p@}%
+  {\parindent \z@ \raggedleft \reset@font
+            \sffamily \bfseries \vphantom{\@chapapp{} \thechapter}
+        \par\nobreak
+        \interlinepenalty\@M
+    \Huge  #1\par\nobreak
+    \hrulefill
+    \par\nobreak
+    \vskip 80\p@
+  }}
+
+%------------------------ part page layout
+%% from book.cls:
+\renewcommand\part{%
+   \if@openright
+      \cleardoublepage
+   \else
+      \clearpage
+   \fi
+   \thispagestyle{plain}%
+  \if@twocolumn
+    \onecolumn
+    \@tempswatrue
+  \else
+    \@tempswafalse
+  \fi
+  \null\vfil
+  \secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    \markboth{}{}%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \Huge \reset@font \hrulefill \\ \raggedleft \vspace{5mm} \sffamily%
+            \bfseries {#2} \hspace{15mm}\ \\ \hrulefill \par}%
+    \@endpart}
+\def\@spart#1{%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \Huge \sffamily \bfseries #1\par}%
+    \@endpart}
+\def\@endpart{\vfil    %% \newpage -- HWL: no pagebreak with part env
+              \if@twoside
+                \null
+                \thispagestyle{empty}%
+                %%\newpage
+              \fi
+              \if@tempswa
+                \twocolumn
+              \fi}
+%-----------------------------------------------
+
+\endinput

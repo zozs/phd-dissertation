@@ -1,0 +1,76 @@
+
+%\renewcommand{\figurename}{Figur}
+\hyphenation{informations-teknologin}
+\hyphenation{informations-säkerhet}
+\hyphenation{informations-tekno-login}
+
+\chapter*{Populärvetenskaplig sammanfattning}
+
+Digitaliseringen av samhället fortsätter i allt snabbare takt, och informationsteknologin utvecklas kontinuerligt.
+De första stegen var att digitalisera lokala samlingar av information för att göra dem enkelt sökbara på plats.
+Med informationen väl digitaliserad var nästa steg istället att göra informationen tillgänglig för andra, till exempel över Internet.
+
+Med ökad tillgänglighet krävs dock ökad informationssäkerhet; en ökad tillgänglighet leder också till en ökad risk för att informationen kan ändras, eller hamna i orätta händer.
+Nästa steg inom databehandling -- som pågår i detta nu -- är den ökande användningen av IT-tjänster som hanteras av någon annan, populärt kallat \emph{molntjänster}.
+Dessa tjänster har snabbt växt i populäritet, mycket beroende på ökad flexibilitet, då användare enkelt kan öka eller minska den inköpta kapaciteten snabbt efter behov.
+
+Behandling och lagring av data på servrar enbart nåbara över Internet kräver förstås att informationssäkerhet diskuteras.
+Denna avhandling berör informationssäkerhet i dessa moderna situationer.
+
+\section*{Säker kommunikation}
+
+Ett grundläggande krav för att lagra och hämta information från tjänster på Internet är att informationen kan överföras på ett säkert sätt.
+Vad som menas med \emph{säkert} varierar från fall till fall, men ett vanligt krav är att konfidentialiteten ska skyddas, det vill säga att informationen enbart ska kunna läsas av behöriga användare.
+I praktiken uppnås detta ofta med hjälp av \emph{kryptering}, ett sätt att göra information oläsbar för obehöriga som övervakar trafiken; endast personer med rätt nyckel kan läsa informationen.
+
+Design av dessa algoritmer kräver ofta att hänsys tas till flera olika aspekter.
+I de allra flesta fall är det inte enbart säkerhet som är relevant, utan även prestandan hos algoritmen.
+Algoritmen behöver ha en tillräcklig säkerhetsmarginal för att kunna ge trovärdig säkerhet, men samtidigt inte ha en onödigt hög marginal eftersom det ger sämre prestanda.
+
+Ett sätt att analysera säkerheten i en krypteringsalgoritm är att försöka konstruera en \emph{urskiljare}.
+Målet med denna är att avgöra om en given mängd data är resultatet av en kryptering, eller om det bara är slumpmässig data.
+För en väldesignad krypteringsalgoritm ska det inte vara möjligt att konstruera en urskiljare.
+En av artiklarna i denna avhandling berör konstruktionen av sådana urskiljare, närmare bestämt en algoritm för att hitta en delmängd av insignaler till krypteringsalgoritmen som får den att uppvisa maximal icke-slumpmässighet.
+Sådan icke-slumpmässighet kan sedan användas för att försöka konstruera en urskiljare, eller designa andra typer av attacker.
+Den konstruerade algoritmen är en generalisering av tidigare naivt giriga algoritmer, och ger ett bättre resultat eftersom den minskar risken att fastna i lokala extrempunkter.
+
+\section*{Tillförlitlig databehandling}
+
+Molntjänsters ökade flexibilitet för användaren är en uppenbar fördel, samtidigt som det också medför ny problematik för användarna.
+Eftersom data nu behandlas på någon annans system -- i motsats till användarens egna -- blir en rimlig följdfråga hur systemets beteende kan garanteras.
+
+En teknik för att garantera datorers beteende är \emph{trusted computing} -- ungefär \emph{tillförlitlig databehandling} -- ofta förkortat TC.
+I praktiken finns det flera olika sätt att implementera TC i datorer: två vanliga implementationer är Trusted Platform Module (TPM), och Software Guard Extensions (SGX).
+TPM är en separat hårdvarukomponent, inbyggd i många moderna datorer, som kan utföra kryptografiska beräkningar och lagra information.
+Komponenten är designad för att vara svår att manipulera, vilket betyder att även någon med fysisk tillgång har svårt att läsa ut känslig information.
+Det gör att en TPM ofta används för att lagra känslig information så som krypteringsnycklar.
+
+Problem uppstår dock om datorn av någon anledning behöver bytas ut, eller om komponenten av någon anledning slutar fungera.
+I dessa fall behöver den känsliga informationen flyttas -- \emph{migreras} -- till en ny enhet.
+I en av artiklarna i denna avhandling tittar vi hur detta kan lösas i system som kräver hög tillgänglighet.
+Dessutom beskrivs hur problemet kan lösas för två olika versioner av TPM-standarden, TPM 1.2 och TPM 2.0.
+
+En annan av artiklarna i avhandlingen beskriver hur en migrering från TPM 1.2 till TPM 2.0 kan se ut.
+TPM 2.0 är den nyare standarden, men är inte bakåtkompatibel -- det finns betydande skillnader i beteende mellan de båda versionerna.
+I artikeln beskrivs hur nycklar kan flyttas från TPM 1.2 till TPM 2.0 med bibehållen funktionalitet.
+
+För att kunna leverera den flexibilitet som krävs av molntjänster används idag \emph{mjukvarudefinierade nätverk} (eng. Software-defined networking).
+Dessa möjliggör för tjänsteleverantörer att dynamiskt bygga upp nätverk med hjälp av mjukvara, istället för att fysiskt behöva koppla om nätverksutrustning.
+I en annan av artiklarna i denna avhandling beskrivs en lösning för att verifiera sådana mjukvarubaserade nätverkskomponenter \emph{innan} de ansluts till nätverket.
+För att möjliggöra detta används trusted computing.
+Detta ökar säkerheten i nätverket, eftersom obehöriga nätverkskomponenter utgör en säkerhetsrisk.
+
+\section*{Mjukvarusårbarheter}
+
+Vid utveckling av modern mjukvara används i stor utsträckning externa mjukvarukomponenter, ofta utvecklade av andra än utvecklaren själv.
+Detta gör utvecklingsprocessen snabbare, minskar risken att upprepa samma misstag som andra, och ger tid att fokusera på utveckling av ny funktionalitet.
+Användning av externa komponenter kräver dock att utvecklaren uppdaterar dessa externa komponenter när säkerhetsbrister upptäcks -- på liknande sätt som datoranvändare behöver installera säkerhetsuppdateringar för sina program.
+
+I avhandlingen beskrivs ett hjälpmedel för utvecklare att bedöma hur relevant en mjukvarusårbarhet är för dem.
+Systemet samlar information om utvecklarens preferenser och lär sig hur utvecklaren brukar agera för en viss typ av mjukvarusårbarhet, och skapar utifrån detta en profil.
+Systemet kan användas som beslutsstöd för att underlätta för utvecklare att bestämma hur en sårbarhet ska hanteras.
+
+Slutligen beskriver en av avhandlingens artiklar hur tillförlitlig databehandling kan användas för att skydda profilen i ett system som det ovan.
+Utvecklarens profil kan uppfattas som känslig, och bör därför inte spridas.
+Samtidigt behövs profilen för att systemet ska kunna ge bra rekommendationer.
+Därför har en lösning designats så att profilen kan användas av systemet, utan att det går att koppla en given profil till en viss utvecklare.

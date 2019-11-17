@@ -1,0 +1,28 @@
+*.aux
+*.log
+*.bbl
+*.blg
+*.d
+*.fls
+*.make
+*.temp
+*.out
+*.cut
+*.toc
+*.xml
+*.cookie
+*.bcf
+
+main-blx.bib
+
+# vim
+*.swp
+
+# mac
+.DS_Store
+
+*.pdf
+!figures/*.pdf
+!linus_dissertation_final.pdf
+
+*-eps-converted-to.pdf

@@ -1,0 +1,168 @@
+% !TeX document-id = {6eceee42-3de4-4e43-849f-a96922157a3e}
+
+% Special command to automatically make Mac's TeXshop use xelatex for this file:
+% !TEX TS-program = xelatex
+%
+\documentclass[11pt]{book} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% Everything font-related %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ifxetex}
+
+% Font selections - they are only used when you compile with xelatex (strongly recommended). If you use 
+% pdflatex, the default latex fonts will be used, you will break the University graphical profile, and your
+% thesis will look much much uglier.
+
+\ifxetex
+\usepackage{mathspec}
+\usepackage[no-math]{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\usepackage{setspace}
+% Adobe Garamond Pro for serif fonts and maths, Frutiger as sans, according to LU graphical profile
+% Tables get monospaced numerals, text gets proportional numerals, mathmode gets uppercase monospaced numberals
+\setmainfont[Mapping=tex-text,Numbers={Proportional}]{Adobe Garamond Pro}
+\AtBeginEnvironment{tabular}{\addfontfeatures{Numbers={Monospaced}}}
+\setsansfont{Frutiger LT Std 45 Light}
+\setmathfont(Greek,Digits,Latin){Adobe Garamond Pro}
+% mathspec is broken. The next eight lines work around that.
+\usepackage{etoolbox}
+\makeatletter
+\begingroup\lccode`~=`"
+\lowercase{\endgroup
+	\everymath{\let~\eu@active@quote}
+	\everydisplay{\let~\eu@active@quote}
+}
+\makeatother
+
+% Set line spacing to slightly below default since the default
+% becomes unnecessary big with Adobe Garamond.
+\setstretch{0.95}
+
+\else
+% This is what is used for pdf latex. 
+% You can try \usepackage{ebgaramond} with (pdf)latex, however that does not have bold fonts ... !
+%\usepackage{ebgaramond}
+\usepackage[utf8]{inputenc}
+\fi
+%%%%%%%%%%%% end font selections
+
+% For "Lorem Ipsum" style place holders
+\usepackage{blindtext}
+
+% For \includegraphics
+\usepackage{graphicx}
+
+% To include the PDFs of the papers
+\usepackage{pdfpages}
+
+% For begin{spacing}
+\usepackage{setspace}
+
+% Hyphenation, support for different languages, last one is default
+% Make sure to install the hyphenation packages for all languages you need
+\usepackage[british]{babel} 
+
+% Paper size. Typically this works also fine when printed on A4 (text size is
+% as print later, just the margins become wider to accommodate the too large
+% sheets).
+%% A5 format
+\usepackage[paperwidth=148mm,paperheight=210mm,total={120mm,196mm}, top=0mm, centering]{geometry}
+\setlength{\headheight}{14pt}
+
+% not every page needs to go to the same bottom line. Allows nicer page breaks.
+\raggedbottom
+
+% ********************************************************************
+\newcommand{\myName}{Linus Karlsson}
+\newcommand{\myYear}{2019}
+\newcommand{\myMainTitle}{Contributions to Preventive Measures in Cyber Security}
+
+% Compact combination of combining title and subtitle, used in datasheet and as
+% chapter title for the main part.
+\newcommand{\myTitle}{\myMainTitle} 
+
+\newcommand{\myDepartment}{Department of Electrical and Information Technology}
+\newcommand{\myAddress}{Box 118\\SE--221 00 Lund\\Sweden} % Three lines maximum!
+
+\newcommand{\myAdvisors}{Martin Hell, Paul Stankovski Wagner, Ben Smeets}
+\newcommand{\myOpponent}{Prof. Jan-Erik Ekberg}
+
+\newcommand{\myDefenceAnnouncement}{%
+	Academic dissertation which, by due permission of the Faculty of Engineering at Lund University, will be publicly defended on Thursday October 24, 2019, at 09:15, in lecture hall E:1406 at the Department of Electrical and Information Technology, Ole Römers väg 3, Lund, for the degree of Doctor of Philosophy in Engineering. }
+
+\newcommand{\myDefenceAnnouncementSwedish}{%
+	Akademisk avhandling, som med godkännande av tekniska fakulteten vid Lunds universitet, kommer att offentligen försvaras torsdagen den 24 oktober 2019, kl. 09.15 i hörsal E:1406 vid institutionen för elektro- och informationsteknik, Ole Römers väg 3, Lund, för avläggande av teknologie doktorsexamen.}
+
+% Series number. Astronomy users:
+% Series: {\scshape lunfd6/(nfas}-1048)/1-\myPages/(\myYear)}
+% where you increment the number 1048 by one wrt to last thesis at the department
+% 
+% Your department maybe uses something else, probably an ISSN number? 
+\newcommand{\mySeries}{1654-790X, No. 126\\Series of licentiate and doctoral theses}
+
+\newcommand{\myISBNprint}{978-91-7895-294-6}
+\newcommand{\myISBNpdf}{978-91-7895-295-3}
+%\newcommand{\myFormSignDate}{2019-09-25}
+\newcommand{\myFormSignDate}{}
+
+% total page number is computed automatically:
+\newcommand{\myPages}{\lastpageref{LastPages}}
+
+\newcommand{\myFormDefenceDate}{2019-10-24}
+\newcommand{\myFormKeywords}{}
+
+% Write a short english abstract of the thesis here, goes into the data sheet page 4. 
+\newcommand{\myAbstract}{
+	\input{../abstract}
+}%
+
+\begin{document}
+
+% title page with small text (spikningsblad)
+\thispagestyle{empty} % no page number
+~
+\vfill
+\begin{center}
+	{\begin{spacing}{0.9} \Huge \myMainTitle \end{spacing}}
+	
+	\vfill
+	{\large \myName}
+	
+	\vfill
+	% black and white (default):
+	\includegraphics[width=0.25\textwidth]{../figures/LundUniversity_C2line_BLACK}
+	
+	%\vspace{7mm}
+	\vspace{10mm}
+	%{\large Advisors: \myAdvisors}\\
+	%{\large Faculty opponent: \myOpponent}\\
+	\vspace{1cm}
+\end{center}
+{\footnotesize
+	\myDefenceAnnouncement
+	
+	\noindent Faculty opponent: \myOpponent
+}
+
+%\vspace{4mm}
+%\noindent
+%{\footnotesize
+%	\myDefenceAnnouncementSwedish
+%	
+%	\noindent Fakultetsopponent: \myOpponent
+%}
+\vfill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page two: data sheet
+
+% Set line spacing to slightly below default since the default
+% becomes unnecessary big with Adobe Garamond.
+%
+\setstretch{1.0}
+
+\newpage \thispagestyle{empty} % no page number
+
+\input{datasheetform}
+
+\end{document}
